@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog-Stop</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  
+  </head>
+  <body>
+    
+    <div class="formDiv">
+
+
+      <h2 id="welcomeText">Welcome</h2>
+      <form action="/submit" method="POST">
+        <label for="userName">Name</label>
+        <input id="userName" name="userName" placeholder="Your Name" required />
+
+        <label for="blogName">Blog Title</label>
+        <input name="blogName" placeholder="Enter blog title" required />
+
+        <label for="blogData">Blog</label>
+        <textarea
+          name="blogData"
+          rows="6"
+          placeholder="Write your blog here..."
+          required
+        ></textarea>
+
+        <button type="submit">Post</button>
+      </form>
+    </div>
+   
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var userNameInput = document.getElementById("userName");
+        var welcomeText = document.getElementById("welcomeText");
+
+        userNameInput.addEventListener("input", function () {
+          var name = userNameInput.value.trim();
+          if (name.length > 0) {
+            welcomeText.textContent = "Welcome " + name;
+          } else {
+            welcomeText.textContent = "Welcome";
+          }
+        });
+      });
+    </script>
+   
+  </body>
+</html>

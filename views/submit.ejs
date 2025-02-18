@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="styles/blog.css">
+</head>
+<body>
+
+    <header class="hero">
+        <h1 id="blogTitle"><%= titleOfBlog %></h1>
+        <p id="blogAuthor">~ <%= authorOfBlog %></p>
+    </header>
+
+    <section class="content">
+        <p id="blogContent">
+            <%= infoOfBlog %>
+            <br>
+            <button type="submit" onclick= "window.location.href='/edit'">New</button>
+        </p>
+        
+    </section>
+
+    
+
+</body>
+</html>
