@@ -30,13 +30,13 @@ app.post('/submit',(req,res)=>{
         infoOfBlog : blogInfo,
     })
 
-})
+});
 
 
 //when edit is tapped
 app.get('/edit',(req,res)=>{
     res.redirect('/')
-})
+});
 
 
 
@@ -44,4 +44,4 @@ app.get('/edit',(req,res)=>{
 
 app.listen(port , (req,res)=>{
     console.log(`Server running on port : ${port}`);
-})
+});
