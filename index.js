@@ -13,7 +13,7 @@ app.use(express.static("public"));
 //recieving the GET response from client
 app.get('/',(req,res)=>{
     res.render('index')
-})
+});
 
 
 //getting the response and sending to blog page
