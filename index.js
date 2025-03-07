@@ -1,17 +1,16 @@
-const express = require('express');
-const path = require('path');
+import express from 'express'
+import bodyParser from 'body-parser'
+
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Set EJS as templating engine
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-// Serve static files from public directory
-app.use(express.static('public'));
-
-// Routes
+// Home page
 app.get('/', (req, res) => {
-  res.render('index');
+    res.render('index');
 });
 
 // Handle form submission
@@ -23,7 +22,7 @@ app.post('/submit', (req, res) => {
     });
 });
 
-// Start server
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+    console.log(`Server running on port: ${port}`);
 });
