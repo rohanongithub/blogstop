@@ -1,91 +1,372 @@
 /* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
+:root {
+  --primary-color: #10b981;
+  --text-color: #ffffff;
+  --bg-color: #111827;
+  --secondary-bg: rgba(16, 185, 129, 0.1);
+  --border-color: rgba(16, 185, 129, 0.2);
+  --glass-bg: rgba(17, 24, 39, 0.7);
+  --glass-border: rgba(16, 185, 129, 0.15);
+  --delete-color: #ef4444;
+}
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 body {
-    background-color: rgba(240, 239, 236, 0.859);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+  overflow-x: hidden;
+  display: flex;
+  justify-content: center;
+  font-size: 16px;
 }
 
-h2 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-    font-weight: 600;
+/* Aurora Background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, 
+    rgba(16, 185, 129, 0.15) 0%,
+    rgba(16, 185, 129, 0.08) 25%,
+    rgba(16, 185, 129, 0.15) 50%,
+    rgba(16, 185, 129, 0.08) 75%,
+    rgba(16, 185, 129, 0.15) 100%
+  );
+  background-size: 400% 400%;
+  animation: aurora 15s ease infinite;
+  z-index: -1;
+}
+
+@keyframes aurora {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+  width: 100%;
+}
+
+.header h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+}
+
+.header p {
+  font-size: 1.2rem;
+  color: #9ca3af;
 }
 
 .formDiv {
-    background: #ffffff;
-    padding: 30px;
-    width: 100%;
-    max-width: 500px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
+  background: var(--glass-bg);
+  padding: 2.5rem;
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 600px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.formDiv:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.formDiv h2 {
+  align-self: flex-start;
+  margin-bottom: 1.5rem;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 100%;
+  align-self: flex-start;
 }
 
 label {
-    margin-top: 10px;
-    font-weight: 500;
-    color: #444;
+  font-weight: 500;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  margin-bottom: 0.2rem;
+  align-self: flex-start;
 }
 
 input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-input:focus, textarea:focus {
-    border-color: #007bff;
-    outline: none;
-    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.2);
+  width: 100%;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  background: rgba(17, 24, 39, 0.5);
+  color: var(--text-color);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-self: flex-start;
 }
 
 textarea {
-    resize: vertical;
+  min-height: 150px;
+  resize: vertical;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+  background: rgba(17, 24, 39, 0.6);
 }
 
 button {
-    background: #007bff;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-top: 15px;
-    transition: 0.3s ease;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 1rem;
 }
 
 button:hover {
-    background: #0056b3;
+  background-color: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.blog-list {
+  margin-top: 3rem;
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.blog-card {
+  background: var(--glass-bg);
+  padding: 2rem;
+  border-radius: 24px;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 80%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.blog-card:hover {
+  transform: translateX(4px);
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.blog-card h2 {
+  color: var(--primary-color);
+  margin-bottom: 0.8rem;
+  word-wrap: break-word;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+.blog-card .author {
+  font-size: 1.1rem;
+  color: #9ca3af;
+  margin-bottom: 1.2rem;
+}
+
+.blog-card .content {
+  color: var(--text-color);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+.delete-btn {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(239, 68, 68, 0.1);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.delete-btn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  transform: scale(1.1);
+}
+
+.delete-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--delete-color);
+  transition: all 0.2s ease;
+}
+
+.delete-btn:hover svg {
+  transform: scale(1.1);
+}
+
+/* Toast Notification */
+.toast-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.toast {
+  background: var(--glass-bg);
+  color: var(--text-color);
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+  animation: slideIn 0.3s ease forwards;
+}
+
+.toast.show {
+  transform: translateX(0);
+}
+
+.toast svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--delete-color);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(120%);
+  }
 }
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    .formDiv {
-        padding: 20px;
-    }
+  .container {
+    padding: 1rem;
+  }
+  
+  .formDiv, .blog-card {
+    padding: 1.5rem;
+    border-radius: 20px;
+  }
 
-    input, textarea {
-        font-size: 13px;
-    }
+  .blog-card {
+    width: 95%;
+  }
+
+  .header h1 {
+    font-size: 2.5rem;
+  }
+
+  input, textarea, button, .blog-card .content {
+    font-size: 1rem;
+  }
 }

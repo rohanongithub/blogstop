@@ -5,48 +5,141 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog-Stop</title>
     <link rel="stylesheet" href="styles/style.css" />
-  
   </head>
   <body>
-    
-    <div class="formDiv">
+    <div class="container">
+      <header class="header">
+        <h1>Blog-Stop</h1>
+        <p>Share your thoughts with the world</p>
+      </header>
 
+      <div class="formDiv">
+        <h2 id="welcomeText">Create a New Post</h2>
+        <form id="blogForm" action="/submit" method="POST">
+          <div class="form-group">
+            <label for="userName">Author Name</label>
+            <input id="userName" name="userName" placeholder="Enter your name" required />
+          </div>
 
-      <h2 id="welcomeText">Welcome</h2>
-      <form action="/submit" method="POST">
-        <label for="userName">Name</label>
-        <input id="userName" name="userName" placeholder="Your Name" required />
+          <div class="form-group">
+            <label for="blogName">Blog Title</label>
+            <input name="blogName" placeholder="Enter blog title" required />
+          </div>
 
-        <label for="blogName">Blog Title</label>
-        <input name="blogName" placeholder="Enter blog title" required />
+          <div class="form-group">
+            <label for="blogData">Blog Content</label>
+            <textarea
+              name="blogData"
+              rows="6"
+              placeholder="Write your blog here..."
+              required
+            ></textarea>
+          </div>
 
-        <label for="blogData">Blog</label>
-        <textarea
-          name="blogData"
-          rows="6"
-          placeholder="Write your blog here..."
-          required
-        ></textarea>
+          <button type="submit">Publish Post</button>
+        </form>
+      </div>
 
-        <button type="submit">Post</button>
-      </form>
+      <div class="blog-list" id="blogList">
+        <!-- Blog posts will be dynamically added here -->
+      </div>
     </div>
-   
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var userNameInput = document.getElementById("userName");
-        var welcomeText = document.getElementById("welcomeText");
 
-        userNameInput.addEventListener("input", function () {
-          var name = userNameInput.value.trim();
-          if (name.length > 0) {
-            welcomeText.textContent = "Welcome " + name;
-          } else {
-            welcomeText.textContent = "Welcome";
-          }
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+      // Store blog posts in localStorage
+      let blogPosts = JSON.parse(localStorage.getItem('blogPosts')) || [];
+
+      // Function to show toast notification
+      function showToast(message) {
+        const toastContainer = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `
+          <svg viewBox="0 0 24 24">
+            <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+          </svg>
+          <span>${message}</span>
+        `;
+        
+        toastContainer.appendChild(toast);
+        setTimeout(() => toast.classList.add('show'), 100);
+
+        // Remove toast after 3 seconds
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      // Function to create a blog card
+      function createBlogCard(post, index) {
+        const card = document.createElement('div');
+        card.className = 'blog-card fade-in';
+        card.innerHTML = `
+          <h2>${post.title}</h2>
+          <div class="author">By ${post.author}</div>
+          <div class="content">${post.content}</div>
+          <button class="delete-btn" data-index="${index}" title="Delete post">
+            <svg viewBox="0 0 24 24">
+              <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+            </svg>
+          </button>
+        `;
+
+        // Add delete functionality
+        const deleteBtn = card.querySelector('.delete-btn');
+        deleteBtn.addEventListener('click', () => {
+          blogPosts.splice(index, 1);
+          localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+          displayBlogPosts();
+          showToast('Blog post deleted successfully');
         });
+
+        return card;
+      }
+
+      // Function to display all blog posts
+      function displayBlogPosts() {
+        const blogList = document.getElementById('blogList');
+        blogList.innerHTML = '';
+        blogPosts.forEach((post, index) => {
+          blogList.appendChild(createBlogCard(post, index));
+        });
+      }
+
+      // Handle form submission
+      document.getElementById('blogForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const post = {
+          title: this.blogName.value,
+          author: this.userName.value,
+          content: this.blogData.value,
+          date: new Date().toLocaleDateString()
+        };
+
+        blogPosts.unshift(post); // Add new post to the beginning
+        localStorage.setItem('blogPosts', JSON.stringify(blogPosts));
+        
+        // Reset form
+        this.reset();
+        document.getElementById('welcomeText').textContent = 'Create a New Post';
+        
+        // Display updated blog list
+        displayBlogPosts();
       });
+
+      // Update welcome text
+      document.getElementById('userName').addEventListener('input', function() {
+        const name = this.value.trim();
+        const welcomeText = document.getElementById('welcomeText');
+        welcomeText.textContent = name ? `Welcome, ${name}!` : 'Create a New Post';
+      });
+
+      // Initial display of blog posts
+      displayBlogPosts();
     </script>
-   
   </body>
 </html>
